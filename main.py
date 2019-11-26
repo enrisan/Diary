@@ -57,20 +57,27 @@ def view_entries(search_query=None):
         print("*"*len(timestamp))
         print(entry.content)
         print("n) next entry")
+        print("d) delete entry")
         print("q) return to menu")
 
         next_action = input("Action: ").lower().strip()
 
         if next_action == 'q':
             break
+        elif next_action == 'd':
+            delete_entry(entry)
 
 def search_entries():
     """Search an entry"""
     search_query = input("Search query: ").strip()
     view_entries(search_query)
 
-def delete_entry():
+def delete_entry(entry):
     """Delete an Entry"""
+    action =input("Are you sure?[Yn] ").lower().strip()
+
+    if action == 'y':
+        entry.delete_instance()
 
 menu = OrderedDict([
     ('a',add_entry),
