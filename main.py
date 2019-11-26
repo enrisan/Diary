@@ -1,8 +1,8 @@
 import datetime
 import sys
 
-from peewee import *
 from collections import OrderedDict
+from peewee import *
 
 db = SqliteDatabase('diary.db')
 
@@ -35,7 +35,8 @@ def menu_loop():
 
 def add_entry():
     """Add Entry"""
-    print("Enter your thoughts. Press Ctrl + D to finish")
+    print("Enter your thoughts.")
+    print("Press Ctrl+z (Windows) or Ctrl+D (MacOS/Unix) to finish.")
     data = sys.stdin.read().strip()
 
     if data:
@@ -55,12 +56,15 @@ def view_entries(search_query=None):
         timestamp = entry.timestamp.strftime('%A %B %d, %Y %I:%M%p')
         print(timestamp)
         print("*"*len(timestamp))
+        print("\n")
         print(entry.content)
+        print("\n")
+        print("*"*len(timestamp))
         print("n) next entry")
         print("d) delete entry")
         print("q) return to menu")
 
-        next_action = input("Action: ").lower().strip()
+        next_action = input("Action:[Ndq] ").lower().strip()
 
         if next_action == 'q':
             break
@@ -82,8 +86,8 @@ def delete_entry(entry):
 menu = OrderedDict([
     ('a',add_entry),
     ('v',view_entries),
-    ('s',search_entries),
-    ('d',delete_entry)
+    ('s',search_entries)
+#    ('d',delete_entry)
 ])
 
 if __name__ == '__main__':
