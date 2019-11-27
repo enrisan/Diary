@@ -6,6 +6,7 @@ from peewee import *
 
 db = SqliteDatabase('diary.db')
 
+
 class Entry(Model):
     # content
     # timestamp
@@ -15,10 +16,12 @@ class Entry(Model):
     class Meta:
         database = db
 
+
 def create_and_connect():
     """Connects to the database and creates the tables"""
     db.connect()
-    db.create_tables([Entry],safe=True)
+    db.create_tables([Entry], safe=True)
+
 
 def menu_loop():
     """Show menu"""
@@ -26,12 +29,13 @@ def menu_loop():
     while choice != 'q':
         print("Press 'q' to quit")
 
-        for key,value in menu.items():
-            print("{}) {}".format(key,value.__doc__))
+        for key, value in menu.items():
+            print("{}) {}".format(key, value.__doc__))
         choice = input("Action: ").lower().strip()
 
         if choice in menu:
             menu[choice]()
+
 
 def add_entry():
     """Add Entry"""
@@ -40,9 +44,10 @@ def add_entry():
     data = sys.stdin.read().strip()
 
     if data:
-        if input("Do you want to save your entry? [Yn]").lower().strip() != 'n':
+        if input("Do you want to save your entry?[Yn]").lower().strip() != 'n':
             Entry.create(content=data)
             print("Your entry was saved succesfully.")
+
 
 def view_entries(search_query=None):
     """View All Entries"""
@@ -71,23 +76,24 @@ def view_entries(search_query=None):
         elif next_action == 'd':
             delete_entry(entry)
 
+
 def search_entries():
     """Search an entry"""
     search_query = input("Search query: ").strip()
     view_entries(search_query)
 
+
 def delete_entry(entry):
     """Delete an Entry"""
-    action =input("Are you sure?[Yn] ").lower().strip()
+    action = input("Are you sure?[Yn] ").lower().strip()
 
     if action == 'y':
         entry.delete_instance()
 
 menu = OrderedDict([
-    ('a',add_entry),
-    ('v',view_entries),
-    ('s',search_entries)
-#    ('d',delete_entry)
+    ('a', add_entry),
+    ('v', view_entries),
+    ('s', search_entries)
 ])
 
 if __name__ == '__main__':
